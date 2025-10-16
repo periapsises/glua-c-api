@@ -11,14 +11,14 @@ enum {
 
 struct lua_State;
 
-typedef int (*lua_CFunction)(lua_State *L);
+typedef int (*lua_CFunction)(lua_State* L);
 
 class lua_Base
 {
 public:
     struct UserData
     {
-        void *data;
+        void* data;
         unsigned char type;
     };
 
@@ -57,18 +57,18 @@ public:
     // Pushes table[key] onto the stack.
     // table = value at position
     // key   = value second from top of the stack
-    virtual void GetField(int position, const char *key) = 0;
+    virtual void GetField(int position, const char* key) = 0;
 
     // Sets table[key] to the value at the second from top of the stack.
     // table = value at position
     // key   = key argument
     // Pops the key and the value from the stack.
-    virtual void SetField(int position, const char *key) = 0;
+    virtual void SetField(int position, const char* key) = 0;
 
     // Pushes the metatable associated with the given type name.
     // Returns the type index to use for this type.
     // If the type does not already exist, it will be created.
-    virtual int CreateMetaTable(const char *name) = 0;
+    virtual int CreateMetaTable(const char* name) = 0;
 
     // Pushes the metatable of the associated type onto the stack.
     virtual bool PushMetaTable(int type) = 0;
@@ -115,7 +115,7 @@ public:
     // Throws an error and ceases execution of the function.
     // WARNING: Any local C values will not have their destructors called!
     [[noreturn]]
-    virtual void ThrowError(const char *message) = 0;
+    virtual void ThrowError(const char* message) = 0;
 
     // Checks if the type of the value at the given position is the same as the given type.
     // If the type is not the same, throws an error and ceases execution of the function.
@@ -125,7 +125,7 @@ public:
     // Throws a formatted error message about the given argument.
     // WARNING: Any local C values will not have their destructors called!
     [[noreturn]]
-    virtual void ArgError(int argPosition, const char *message) = 0;
+    virtual void ArgError(int argPosition, const char* message) = 0;
 
     // Pushed table[key] onto the stack without calling the __index metamethod.
     // table = value at position
@@ -143,7 +143,7 @@ public:
     // If size is not NULL, it is set to the length of the string.
     // If the value is a number, it will be converted into a string.
     // Returns NULL if the value is not a string.
-    virtual const char *GetString(int position, unsigned int *size = NULL) = 0;
+    virtual const char* GetString(int position, unsigned int* size = NULL) = 0;
 
     // Returns the number value at the given position.
     // Returns 0 if the value is not a number.
@@ -162,7 +162,7 @@ public:
 
     // Pushes a string value onto the stack.
     // If size is 0, `strlen` will be used to determine the length of the string.
-    virtual void PushString(const char *str, unsigned int size = 0) = 0;
+    virtual void PushString(const char* str, unsigned int size = 0) = 0;
 
     // Pushes a number value onto the stack.
     virtual void PushNumber(double number) = 0;
@@ -194,12 +194,12 @@ public:
 
     // Returns the name of the given type.
     // NOTE: Does not work with user-created types.
-    virtual const char *GetTypeName(int type) = 0;
+    virtual const char* GetTypeName(int type) = 0;
 
     // Checks if the value at the given position is a string.
     // If not, throws an error and ceases execution of the function.
     // WARNING: Any local C values will not have their destructors called!
-    virtual const char *CheckString(int position) = 0;
+    virtual const char* CheckString(int position) = 0;
 
     // Checks if the value at the given position is a number.
     // If not, throws an error and ceases execution of the function.
@@ -211,38 +211,38 @@ public:
     virtual int ObjLen(int position) = 0;
 
     // Returns the vector value at the given position.
-    virtual const Vector &GetVector(int position) = 0;
+    virtual const Vector& GetVector(int position) = 0;
 
     // Pushes a vector value onto the stack.
-    virtual void PushVector(const Vector &vector) = 0;
+    virtual void PushVector(const Vector& vector) = 0;
 
     // Returns the angle value at the given position.
-    virtual const QAngle &GetAngle(int position) = 0;
+    virtual const QAngle& GetAngle(int position) = 0;
 
     // Pushes an angle value onto the stack.
-    virtual void PushAngle(const QAngle &angle) = 0;
+    virtual void PushAngle(const QAngle& angle) = 0;
 
     // Sets the `lua_State` to be used by the `lua_Base` instance.
     // This is only necessary for C-Functions that need to access the `lua_State`.
-    virtual void SetState(lua_State *L) = 0;
+    virtual void SetState(lua_State* L) = 0;
 
 protected:
-    virtual void *NewUserdata(unsigned int size) = 0;
+    virtual void* NewUserdata(unsigned int size) = 0;
 
 public:
     // Creates a new UserType of the given type and pushes it onto the stack.
-    virtual void PushUserType(void *data, int type) = 0;
+    virtual void PushUserType(void* data, int type) = 0;
 
     // Sets the data of the UserType at the given position.
     // Setting the data to NULL will invalidate the UserType.
-    virtual void SetUserType(int position, void *data) = 0;
+    virtual void SetUserType(int position, void* data) = 0;
     
     // Returns the data of the UserType at the given position.
     // Returns NULL if the UserType is invalid or not of the given type.
     template <class T>
-    T *GetUserType(int position, int type)
+    T* GetUserType(int position, int type)
     {
-        auto *userData = static_cast<UserData*>(GetUserData(position));
+        auto* userData = static_cast<UserData*>(GetUserData(position));
 
         if (userData == nullptr || userData->type == nullptr || userData->type != type)
             return nullptr;
@@ -253,14 +253,14 @@ public:
 
     // Creates a new UserType with the given value and pushes it onto the stack.
     template <class T>
-    void PushUserType_Value(const T &value, int type)
+    void PushUserType_Value(const T& value, int type)
     {
         using UserData_T = UserData_Value<T>;
 
         static_assert(std::alignment_of<UserData_T>::value <= 8, "PushUserType_Value: Alignment of value is too large");
         static_assert(std::is_trivially_destructible<UserData_T>::value, "PushUserType_Value: Value is not trivially destructible");
 
-        auto *userData = static_cast<UserData_T*>(NewUserdata(sizeof(UserData_T)));
+        auto* userData = static_cast<UserData_T*>(NewUserdata(sizeof(UserData_T)));
         userData->data = new(&userData->value) T(value);
         userData->type = type;
 
