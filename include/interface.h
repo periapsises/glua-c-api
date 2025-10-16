@@ -14,7 +14,7 @@ struct lua_State
     unsigned char _common_lua_header_[LUA_STATE_COMMON_HEADER_SIZE];
     
     lua_Base* luaBase;
-}
+};
 
 #if defined(GLUA_C_API_PLATFORM_WINDOWS)
 #define GMOD_DLL_EXPORT extern "C" __declspec(dllexport)

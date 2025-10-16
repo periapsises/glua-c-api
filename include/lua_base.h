@@ -27,7 +27,7 @@ protected:
     struct UserData_Value: UserData
     {
         T value;
-    }
+    };
 
 public:
     // Returns the amount of values on the stack.
@@ -267,4 +267,4 @@ public:
         if (PushMetaTable(type))
             SetMetaTable(-2);
     }
-}
+};
