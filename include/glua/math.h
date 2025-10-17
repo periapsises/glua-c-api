@@ -2,7 +2,7 @@
 
 struct Vector
 {
-    Vector(): x(0f), y(0f), z(0f) {}
+    Vector(): x(0.f), y(0.f), z(0.f) {}
     Vector(const Vector& source): x(source.x), y(source.y), z(source.z) {}
 
     Vector& operator=(const Vector& source)
