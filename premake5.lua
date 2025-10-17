@@ -11,7 +11,6 @@ function SetupModule(settings)
     local realms = settings.realms or { "Client", "Server" }
     local architectures = settings.architectures or { "x86", "x64" }
 
-    local projectName = _PREMAKE.project.name
     local configs = {}
 
     for _, realm in ipairs(realms) do
@@ -39,7 +38,9 @@ function SetupModule(settings)
 
             filter("configurations:*" .. realm .. "*" .. arch .. "*")
 
-            targetname(prefix .. projectName .. suffix)
+            targetprefix(prefix)
+            targetsuffix(suffix)
+            targetextension(".dll")
             
             if realm == "Client" then
                 defines { "GMOD_MODULE_CLIENT" }
