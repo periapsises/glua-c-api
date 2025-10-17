@@ -36,7 +36,7 @@ function SetupModule(settings)
             filter "system:linux"
                 suffix = architecture == "x86" and "_linux32" or "_linux"
 
-            filter("configurations:*" .. realm .. "*" .. arch .. "*")
+            filter("configurations:*" .. realm .. "*" .. architecture .. "*")
 
             targetprefix(prefix)
             targetsuffix(suffix)
