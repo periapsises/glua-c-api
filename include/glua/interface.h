@@ -39,11 +39,11 @@ GMOD_DLL_EXPORT int gmod13_close(lua_State* L) \
 int __gmod13_close(lua_Base* LUA)
 
 #define LUA_FUNCTION(FUNC)                     \
-int __FUNC##(lua_Base* LUA);                   \
+int FUNC##_impl(lua_Base* LUA);                \
 int FUNC(lua_State* L)                         \
 {                                              \
     lua_Base* LUA = L->luaBase;                \
     LUA->SetState(L);                          \
-    return __FUNC##(LUA);                      \
+    return FUNC##_impl(LUA);                   \
 }                                              \
-int __FUNC##(lua_Base* LUA)
+int FUNC##_impl(lua_Base* LUA)

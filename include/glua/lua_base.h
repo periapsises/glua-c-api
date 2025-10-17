@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stddef.h>
+#include <type_traits>
+
 #include "types.h"
 #include "math.h"
 
