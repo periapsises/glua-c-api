@@ -179,6 +179,8 @@ public:
     // Pushes a C-Function with upvalues onto the stack.
     virtual void PushCClosure(lua_CFunction function, int numUpvalues) = 0;
 
+#define GMOD_REFERENCE_NIL 0
+
     // Allows to store values by reference for later use.
     // WARNING: Make sure to call ReferenceFree when you are done with the reference!
     virtual int ReferenceCreate() = 0;
